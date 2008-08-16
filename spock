@@ -1,0 +1,94 @@
+#!/usr/bin/env ruby
+#-*- ruby -*-
+
+######################################################################
+# Retrieve command-line parameters
+
+require 'optparse'
+require 'ostruct'
+require 'digest'
+require 'digest/sha2'
+
+options = OpenStruct.new
+options.ext_id = nil
+options.version = nil
+options.update_link = nil
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: #{File.basename($0)} [options] FILE"
+
+  opts.on('-i', '--extension-id ID',
+    'ID of the extension resource, including version if any', 'Examples:',
+    'urn:mozilla:extension:foo@bar.org:0.1',
+    'urn:mozilla:extension:{eecba28f-b68b-4b3a-b501-6ce12e6b8696}') { |options.ext_id| }
+  opts.on('-v', '--version VERSION',
+    'Set <version/> value in resulting update.rdf') { |options.version| }
+  opts.on('-u', '--update-link URL',
+    'Set <updateLink/> value in resulting update.rdf') { |options.update_link| }
+  opts.on('-f', '--file PACKAGE_FILENAME',
+    'Determine <updateHash/> value using PACKAGE_FILENAME') { |options.package_filename| }
+  opts.on('-d', '--nss-directory DIR',
+    'Directory containing key key3.db',
+    'Example: ~/.mozilla/mccoy/rt7xxbxw.default/') { |options.nss_dir| }
+
+  opts.separator ''
+
+  opts.on_tail('-h', '--help', 'This help text') do
+    puts opts
+    exit
+  end
+end.parse!
+options.filename = ARGV.shift
+
+
+
+options.filename or abort "#{File.basename($0)}: please provide path to update.rdf."
+options.ext_id or abort "#{File.basename($0)}: please provide an extension ID."
+options.nss_dir or abort "#{File.basename($0)}: please provide path to directory containing key3.db."
+
+
+######################################################################
+# NORMALIZE update.rdf
+
+require File.dirname(__FILE__) + '/normalize_update_rdf'
+
+ds = parse_nt(rdf2nt(options.filename))
+
+def filehash(filename)
+  if Digest::SHA256.method_defined?(:file)
+    Digest::SHA256.file(filename)
+  else
+    Digest::SHA256.hexdigest(File.read(filename))
+  end
+end
+
+updater = proc do |subj, pred, obj|
+  if pred == NS_EM + 'version'
+    options.version
+  elsif pred == NS_EM + 'updateLink'
+    options.update_link
+  elsif pred == NS_EM + 'updateHash' and options.package_filename
+    "sha256:#{filehash(options.package_filename)}"
+  end
+end
+
+signable_data = serialize_resource(ds, options.ext_id, &updater)
+signer_cmdline = "#{File.dirname(__FILE__)}/nss_sign_data #{options.nss_dir}"
+
+signature = IO.popen(signer_cmdline, 'w+') do |f|
+  f.write signable_data
+  f.close_write
+  f.gets.chomp
+end
+
+ds[options.ext_id] << [options.ext_id, NS_EM + 'signature', signature]
+
+signed_data = serialize_resource(ds, options.ext_id, &updater)
+
+puts '<?xml version="1.0"?>'
+puts '<RDF:RDF xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">'
+puts signed_data
+puts '</RDF:RDF>'
+
+
+

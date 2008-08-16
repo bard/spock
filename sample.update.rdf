@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+
+<RDF:RDF xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns="http://www.mozilla.org/2004/em-rdf#">
+  <RDF:Description RDF:about="urn:mozilla:extension:{37428357-bddb-43b3-8700-6a8081396a3d}">
+    <updates>
+      <RDF:Seq>
+        <RDF:li RDF:resource="urn:mozilla:extension:{37428357-bddb-43b3-8700-6a8081396a3d}:0.9.1"/>
+      </RDF:Seq>
+    </updates>
+    <version>0.9.1</version>
+    <updateLink>http://my.site.com/extension/extension-0.9.1.xpi</updateLink>
+    <updateHash/>
+  </RDF:Description>
+  
+  <RDF:Description RDF:about="urn:mozilla:extension:{37428357-bddb-43b3-8700-6a8081396a3d}:0.9.1">
+    <version>0.9.1</version>
+    
+    <!-- Firefox --> 
+    <targetApplication>
+      <RDF:Description>
+        <id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</id>
+        <minVersion>0.10</minVersion>
+        <maxVersion>3.0</maxVersion>
+        <updateLink>http://my.site.com/extension/extension-0.9.1.xpi</updateLink>
+        <updateHash/>
+      </RDF:Description>
+    </targetApplication>
+    
+    <!-- Thunderbird -->
+    <targetApplication>
+      <RDF:Description>
+        <id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</id>
+        <minVersion>0.5</minVersion>
+        <maxVersion>3.0</maxVersion>
+        <updateLink>http://my.site.com/extension/extension-0.9.1.xpi</updateLink>
+        <updateHash/>
+      </RDF:Description>
+    </targetApplication>
+    
+    <!-- NVU -->
+    <targetApplication>
+      <RDF:Description>
+        <id>{136c295a-4a5a-41cf-bf24-5cee526720d5}</id>
+        <minVersion>0.1</minVersion>
+        <maxVersion>1.0</maxVersion>
+        <updateLink>http://my.site.com/extension/extension-0.9.1.xpi</updateLink>
+        <updateHash/>
+      </RDF:Description>
+    </targetApplication>
+    
+    <!-- Netscape -->
+    <targetApplication>
+      <RDF:Description>
+        <id>{3db10fab-e461-4c80-8b97-957ad5f8ea47}</id>
+        <minVersion>8.0</minVersion>
+        <maxVersion>8.1.3</maxVersion>
+        <updateLink>http://my.site.com/extension/extension-0.9.1.xpi</updateLink>
+        <updateHash/>
+      </RDF:Description>
+    </targetApplication>
+    
+    <!-- Flock -->
+    <targetApplication>
+      <RDF:Description>
+        <id>{a463f10c-3994-11da-9945-000d60ca027b}</id>
+        <maxVersion>1.0+</maxVersion>
+        <minVersion>1.0+</minVersion>
+        <updateLink>http://my.site.com/extension/extension-0.9.1.xpi</updateLink>
+        <updateHash/>
+      </RDF:Description>
+    </targetApplication>
+    
+    <!-- SeaMonkey -->
+    <targetApplication>
+      <RDF:Description>
+        <id>{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}</id>
+        <maxVersion>1.0</maxVersion>
+        <minVersion>1.0</minVersion>
+        <updateLink>http://my.site.com/extension/extension-0.9.1.xpi</updateLink>
+        <updateHash/>
+      </RDF:Description>
+    </targetApplication>
+  </RDF:Description>
+</RDF:RDF>
