@@ -62,11 +62,11 @@ def parse_nt(ntriples_dump)
 
   ntriples_dump.split("\n").each do |line|
     s = StringScanner.new(line)
-    subj = s.scan(/_:id\d{7}|<[^>]+>/).gsub(/^<|>$/, '')
+    subj = s.scan(/_:id\d+|<[^>]+>/).gsub(/^<|>$/, '')
     s.skip(/\s+/)
     pred = s.scan(/<[^>]+>/).gsub(/^<|>$/, '')
     s.skip(/\s+/)
-    obj = s.scan(/_:id\d{7}|"[^"]*"|<[^>]+>/).gsub(/^<|>$/, '').gsub(/^"|"$/, '')
+    obj = s.scan(/_:id\d+|"[^"]*"|<[^>]+>/).gsub(/^<|>$/, '').gsub(/^"|"$/, '')
 
     triples[subj] ||= []
     triples[subj] << [subj, pred, obj]
