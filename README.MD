@@ -30,6 +30,7 @@ See Godmar's comment below for more instructions about Fedora.
 
 ## Usage
 
+```
 Usage: spock [options] FILE
     -i, --extension-id ID            ID of the extension resource, including version if any
                                      Examples:
@@ -42,16 +43,15 @@ Usage: spock [options] FILE
                                      Example: ~/.mozilla/mccoy/rt7xxbxw.default/
 
     -h, --help                       This help text
+```
 
 ## Simple example:
 
-
-$ ./spock update.rdf -i urn:mozilla:extension:{eecba28f-b68b-4b3a-b501-6ce12e6b8696} -d ~/.mozilla/mccoy/rt7xxbxw.default/ >update.rdf.signed
+$ ./spock update.rdf -i urn:mozilla:extension:{eecba28f-b68b-4b3a-b501-6ce12e6b8696} -d ~/.mozilla/mccoy/rt7xxbxw.default/ > update.rdf.signed
 
 ## Advanced example:
 
-
-$ ./spock update.rdf -i urn:mozilla:extension:{eecba28f-b68b-4b3a-b501-6ce12e6b8696} -d ~/.mozilla/mccoy/rt7xxbxw.default/ -v 0.1.0 -u http://my.site.com/extensions/ext.xpi -f ext.xpi  >update.rdf.signed
+$ ./spock update.rdf -i urn:mozilla:extension:{eecba28f-b68b-4b3a-b501-6ce12e6b8696} -d ~/.mozilla/mccoy/rt7xxbxw.default/ -v 0.1.0 -u http://my.site.com/extensions/ext.xpi -f ext.xpi > update.rdf.signed
 
 ## Limitations
 update.rdf must be valid XML. Note that Mozilla reading the file correctly does not ensure that it will be valid for libxml. Common issues include about= and resource= attributes being unqualified (so if you have an xmlns:RDF= at the top, make sure you write RDF:about= and RDF:resource=). You might want to use include sample.update.rdf as a guide for your own.
